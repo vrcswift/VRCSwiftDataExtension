@@ -34,9 +34,9 @@ extension Data {
     ///  - Throws: Raised if attempt to access memory out of data.
     ///
     ///  - Parameters:
-    ///   - value: Number to be written to data.
-    ///   - offset: Number of bytes to skip before starting to write. Must satify
-    ///             0 <= offset <= data.count - 1. Default is zero.
+    ///    - value: Number to be written to data.
+    ///    - offset: Number of bytes to skip before starting to write. Must satify
+    ///              0 <= offset <= data.count - 1. Default is zero.
     ///
     public mutating func writeInt8(value: Int8, offset: Index = 0) throws {
         //  Check offset.
@@ -45,7 +45,7 @@ extension Data {
                 message: "Access memory out of data.", kind: .outOfRangeError)
         }
         
-        self[offset] = UInt8(value)
+        self[offset] = UInt8(truncatingIfNeeded: value)
     }
     
     ///
@@ -54,9 +54,9 @@ extension Data {
     ///  - Throws: Raised if attempt to access memory out of data.
     ///
     ///  - Parameters:
-    ///   - value: Number to be written to data.
-    ///   - offset: Number of bytes to skip before starting to write. Must satify
-    ///             0 <= offset <= data.count - 1. Default is zero.
+    ///    - value: Number to be written to data.
+    ///    - offset: Number of bytes to skip before starting to write. Must satify
+    ///              0 <= offset <= data.count - 1. Default is zero.
     ///
     public mutating func writeUInt8(value: UInt8, offset: Index = 0) throws {
         //  Check offset.
@@ -74,9 +74,9 @@ extension Data {
     ///  - Throws: Raised if attempt to access memory out of data.
     ///
     ///  - Parameters:
-    ///   - value: Number to be written to data.
-    ///   - offset: Number of bytes to skip before starting to write. Must satify
-    ///             0 <= offset <= data.count - 2. Default is zero.
+    ///    - value: Number to be written to data.
+    ///    - offset: Number of bytes to skip before starting to write. Must satify
+    ///              0 <= offset <= data.count - 2. Default is zero.
     ///
     public mutating func writeInt16BE(value: Int16, offset: Index = 0) throws {
         if offset < 0 || offset > count - 2 {
@@ -94,8 +94,8 @@ extension Data {
     ///  - Throws: Raised if attempt to access memory out of data.
     ///
     ///  - Parameters:
-    ///   - value: Number to be written to data.
-    ///   - offset: Number of bytes to skip before starting to write. Must satify
+    ///    - value: Number to be written to data.
+    ///    - offset: Number of bytes to skip before starting to write. Must satify
     ///             0 <= offset <= data.count - 2. Default is zero.
     ///
     public mutating func writeInt16LE(value: Int16, offset: Index = 0) throws {
@@ -115,9 +115,9 @@ extension Data {
     ///  - Throws: Raised if attempt to access memory out of data.
     ///
     ///  - Parameters:
-    ///   - value: Number to be written to data.
-    ///   - offset: Number of bytes to skip before starting to write. Must satify
-    ///             0 <= offset <= data.count - 2. Default is zero.
+    ///    - value: Number to be written to data.
+    ///    - offset: Number of bytes to skip before starting to write. Must satify
+    ///              0 <= offset <= data.count - 2. Default is zero.
     ///
     public mutating func writeUInt16BE(value: UInt16, offset: Index = 0) throws{
         if offset < 0 || offset > count - 2 {
@@ -135,9 +135,9 @@ extension Data {
     ///  - Throws: Raised if attempt to access memory out of data.
     ///
     ///  - Parameters:
-    ///   - value: Number to be written to data.
-    ///   - offset: Number of bytes to skip before starting to write. Must satify
-    ///             0 <= offset <= data.count - 2. Default is zero.
+    ///    - value: Number to be written to data.
+    ///    - offset: Number of bytes to skip before starting to write. Must satify
+    ///              0 <= offset <= data.count - 2. Default is zero.
     ///
     public mutating func writeUInt16LE(value: UInt16, offset: Index = 0) throws{
         if offset < 0 || offset > count - 2 {
@@ -155,9 +155,9 @@ extension Data {
     ///  - Throws: Raised if attempt to access memory out of data.
     ///
     ///  - Parameters:
-    ///   - value: Number to be written to data.
-    ///   - offset: Number of bytes to skip before starting to write. Must satify
-    ///             0 <= offset <= data.count - 4. Default is zero.
+    ///    - value: Number to be written to data.
+    ///    - offset: Number of bytes to skip before starting to write. Must satify
+    ///              0 <= offset <= data.count - 4. Default is zero.
     ///
     public mutating func writeInt32BE(value: Int32, offset: Index = 0) throws {
         if offset < 0 || offset > count - 4 {
@@ -178,9 +178,9 @@ extension Data {
     ///  - Throws: Raised if attempt to access memory out of data.
     ///
     ///  - Parameters:
-    ///   - value: Number to be written to data.
-    ///   - offset: Number of bytes to skip before starting to write. Must satify
-    ///             0 <= offset <= data.count - 4. Default is zero.
+    ///    - value: Number to be written to data.
+    ///    - offset: Number of bytes to skip before starting to write. Must satify
+    ///              0 <= offset <= data.count - 4. Default is zero.
     ///
     public mutating func writeInt32LE(value: Int32, offset: Index = 0) throws {
         if offset < 0 || offset > count - 4 {
@@ -192,7 +192,7 @@ extension Data {
         self[offset + 1] = UInt8((value & 0x0000ff00) >> 8)
         self[offset + 2] = UInt8((value & 0x00ff0000) >> 16)
         self[offset + 3] = UInt8(
-            (UInt32(truncatingIfNeeded: value) & 0xff000000))
+            (UInt32(truncatingIfNeeded: value) & 0xff000000) >> 24)
     }
     
     ///
@@ -201,9 +201,9 @@ extension Data {
     ///  - Throws: Raised if attempt to access memory out of data.
     ///
     ///  - Parameters:
-    ///   - value: Number to be written to data.
-    ///   - offset: Number of bytes to skip before starting to write. Must satify
-    ///             0 <= offset <= data.count - 4. Default is zero.
+    ///    - value: Number to be written to data.
+    ///    - offset: Number of bytes to skip before starting to write. Must satify
+    ///              0 <= offset <= data.count - 4. Default is zero.
     ///
     public mutating func writeUInt32BE(value: UInt32, offset: Index = 0) throws{
         if offset < 0 || offset > count - 4 {
@@ -211,8 +211,8 @@ extension Data {
                 message: "Access memory out of buffer.", kind: .outOfRangeError)
         }
 
-        self[offset] = UInt8(value & 0xff000000) >> 24
-        self[offset + 1] = UInt8(value & 0x00ff0000) >> 16
+        self[offset] = UInt8((value & 0xff000000) >> 24)
+        self[offset + 1] = UInt8((value & 0x00ff0000) >> 16)
         self[offset + 2] = UInt8((value & 0x0000ff00) >> 8)
         self[offset + 3] = UInt8(value & 0x000000ff)
     }
@@ -223,9 +223,9 @@ extension Data {
     ///  - Throws: Raised if attempt to access memory out of data.
     ///
     ///  - Parameters:
-    ///   - value: Number to be written to data.
-    ///   - offset: Number of bytes to skip before starting to write. Must satify
-    ///             0 <= offset <= data.count - 4. Default is zero.
+    ///    - value: Number to be written to data.
+    ///    - offset: Number of bytes to skip before starting to write. Must satify
+    ///              0 <= offset <= data.count - 4. Default is zero.
     ///
     public mutating func writeUInt32LE(value: UInt32, offset: Index = 0) throws {
         if offset < 0 || offset > count - 4 {
@@ -245,9 +245,9 @@ extension Data {
     ///  - Throws: Raised if attempt to access memory out of data.
     ///
     ///  - Parameters:
-    ///   - value: Number to be written to data.
-    ///   - offset: Number of bytes to skip before starting to write. Must satify
-    ///             0 <= offset <= data.count - 8. Default is zero.
+    ///    - value: Number to be written to data.
+    ///    - offset: Number of bytes to skip before starting to write. Must satify
+    ///              0 <= offset <= data.count - 8. Default is zero.
     ///
     public mutating func writeInt64BE(value: Int64, offset: Index = 0) throws {
         if offset < 0 || offset > count - 8 {
@@ -272,9 +272,9 @@ extension Data {
     ///  - Throws: Raised if attempt to access memory out of data.
     ///
     ///  - Parameters:
-    ///   - value: Number to be written to data.
-    ///   - offset: Number of bytes to skip before starting to write. Must satify
-    ///             0 <= offset <= data.count - 8. Default is zero.
+    ///    - value: Number to be written to data.
+    ///    - offset: Number of bytes to skip before starting to write. Must satify
+    ///              0 <= offset <= data.count - 8. Default is zero.
     ///
     public mutating func writeInt64LE(value: Int64, offset: Index = 0) throws {
         if offset < 0 || offset > count - 8 {
@@ -299,9 +299,9 @@ extension Data {
     ///  - Throws: Raised if attempt to access memory out of data.
     ///
     ///  - Parameters:
-    ///   - value: Number to be written to data.
-    ///   - offset: Number of bytes to skip before starting to write. Must satify
-    ///             0 <= offset <= data.count - 8. Default is zero.
+    ///    - value: Number to be written to data.
+    ///    - offset: Number of bytes to skip before starting to write. Must satify
+    ///              0 <= offset <= data.count - 8. Default is zero.
     ///
     public mutating func writeUInt64BE(value: UInt64, offset: Index = 0) throws{
         if offset < 0 || offset > count - 8 {
@@ -325,9 +325,9 @@ extension Data {
     ///  - Throws: Raised if attempt to access memory out of data.
     ///
     ///  - Parameters:
-    ///   - value: Number to be written to data.
-    ///   - offset: Number of bytes to skip before starting to write. Must satify
-    ///             0 <= offset <= data.count - 8. Default is zero.
+    ///    - value: Number to be written to data.
+    ///    - offset: Number of bytes to skip before starting to write. Must satify
+    ///              0 <= offset <= data.count - 8. Default is zero.
     ///
     public mutating func writeUInt64LE(value: UInt64, offset: Index = 0) throws {
         if offset < 0 || offset > count - 8 {
@@ -362,7 +362,7 @@ extension Data {
                 message: "Access memory out of data.", kind: .outOfRangeError)
         }
         
-        return Int8(self[offset])
+        return Int8(truncatingIfNeeded: self[offset])
     }
     
     ///
